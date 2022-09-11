@@ -1,19 +1,45 @@
-<div class="container">
-  <div class="row mt-4">
+<div class="container px-5 px sm-0">
+  <div class="row">
     <h2>マイページ</h2>
   </div>
- <%=image_tag @user.profile_image, size: '100x100'%>
-  <div class="row mt-3">
-    <div class="col-2"><h4><strong>登録情報</strong></h4></div>
+  <!-- ユーザーの詳細 -->
+  <% if @user.profile_image.attached? %>
+    <%= image_tag @user.profile_image, class: "rounded-circle", size: "150x150"  %>
+         <% else %>
+           <%= image_tag 'no_image', size: "100x100", id: "profile_img"  %>
+         <% end %>
+  <%#=image_tag @user.profile_image, size: '100x100'%>
+    <div class="row mt-3">
+      <div class="col-2"><h4><strong>登録情報</strong></h4>
+      </div>
+    </div>
+    <div class="form-group row m-2">
+      <label class="col-sm-2 col-form-label">名前</label>
+      <div class="col-sm-10">
+        <%= @user.name %>
+      </div>
+      <label class="col-sm-2 col-form-label">自己紹介文</label>
+      <div class="col-sm-10">
+        <%= @user.introduction %>
+      </div>
+      <div class="col-2">
+        <% if current_user == @user %>
+          <%= link_to "編集する", edit_user_path(@user), class: 'btn btn-outline-success' %>
+          <%= link_to "いいね一覧︎",favorites_path(@favorites),class: 'btn btn-outline-warning' %>
+        <% end %>
+      </div>
 
+  <div class="col-md-8 offset-md-6">
+  <!-- ユーザーの投稿一覧 -->
+  <h2>投稿一覧</h2>
+  <% @post.each do |post| %>
+  <div>
+    <%#= link_to post_path(post.id) do %>
+      <%#= image_tag post.get_image %>
+    <%#" end %>
+    <p>投稿画像：<%#= image_tag post.user.get_profile_image(100,100) %></p>
+    <p>タイトル：<%= post.title %></p>
+    <p>投稿文：<%= post.text %></p>
+    <p><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></p>
+  <% end %>
   </div>
-   <div class="form-group row m-2">
-          <label class="col-sm-2 col-form-label">名前</label>
-            <div class="col-sm-10">
-<%= @user.name %>
-</div>
-<label class="col-sm-2 col-form-label">自己紹介文</label>
-            <div class="col-sm-10">
-<%= @user.introduction %>
-</div>
-<div class="col-2"><%= link_to "編集する", edit_user_path(@user), class: "btn btn-success" %></div>

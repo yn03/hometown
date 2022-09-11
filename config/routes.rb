@@ -9,11 +9,16 @@ devise_for :users, skip: [:passwords], controllers: {
 scope module: :user do
   root 'homes#top'
   get 'home/about' => 'homes#about', as: 'about'
+  # タグの検索
+  get "search_tag"=>"posts#search_tag"
   resources :users, only: [:show, :edit, :update]
+  resources :favorites, only: [:index]
   resources :posts, only: [:index, :show, :edit, :new, :create, :update, :destroy] do
     collection do
       get :ranking
     end
+    resources :comments, only: [:create, :destroy]
+    resource :favorite, only: [:create, :destroy]
   end
 end
 

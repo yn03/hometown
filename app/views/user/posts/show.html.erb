@@ -1,6 +1,13 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-sm-3">
+
+      <!--タグ-->
+      <% @post_tags.each do |tag| %>
+      <%= link_to tag.name,search_tag_path(tag_id: tag.id)%><%="(#{tag.posts.count})" %>
+      <%="(#{tag.posts.count})" %>
+      <% end %>
+
       <h3>投稿詳細画面</h3>
     </div>
     <table class="table">
@@ -25,8 +32,45 @@
             <% end %>
           </td>
           <td>
-            <%= @post.title %>
+            <%= @post.text %>
+             <p>コメント件数：<%= @post.comments.count %></p>
           </td>
+
+<td>
+          <% if @post.favorited_by?(current_user) %>
+    <p>
+      <%= link_to post_favorite_path(@post), method: :delete do %>
+        ♥<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to post_favorite_path(@post), method: :post do %>
+        ♡<%= @post.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
+</td>
+          <td>
+
+  <% @post.comments.each do |comment| %>
+    <p><%#= image_tag comment.user.get_profile_image(100,100) %></p>
+    <%= comment.user.name %>
+    <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
+    <% if comment.user_id == current_user.id %>
+      <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
+    <%end%>
+  <% end %>
+</td>
+
+
+<td>
+  <%= form_with model: [@post, @comment] do |f| %>
+    <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
+    <%= f.submit "送信する" %>
+  <% end %>
+</td>
+
           <% if @user == current_user %>
             <td><%= link_to "Edit",edit_post_path(@post.id), class: 'btn btn-sm btn-success' %></td>
             <td><%= link_to "Destroy",post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-sm btn-danger' %></td>

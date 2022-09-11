@@ -1,27 +1,21 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-sm-3">
-
-    <!--タグリスト-->
-<% @tag_list.each do |list|%>
-<%=link_to list.name,search_tag_path(tag_id: list.id) %>
-<%="(#{list.posts.count})" %><% end %>
-
-      <h3>投稿一覧</h3>
+      <h2>いいね一覧</h2>
     </div>
-    <table class="table table-hover table-inverse">
-      <thead>
-        <tr>
-          <th>投稿者</th>
-          <th>タイトル</th>
-          <th>投稿文</th>
-          <th>コメント</th>
-          <th>いいね</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @posts.each do |post| %>
+      <table class="table table-hover table-inverse">
+        <thead>
           <tr>
+            <th>投稿者</th>
+            <th>タイトル</th>
+            <th>投稿文</th>
+            <th>コメント</th>
+            <th>タイトル</th>
+          </tr>
+        </thead>
+      <tbody>
+        <% @favorite_posts.each do |post|%>
+        <tr>
             <td>
               <%= link_to user_path(post.user.id) do %>
                 <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
@@ -32,7 +26,7 @@
                 <%= post.title %>
               <% end %>
             </td>
-            <td><%= post.text %></td>
+<td><%= post.text %></td>
             <td><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></td>
             <td>
               <% if post.favorited_by?(current_user) %>

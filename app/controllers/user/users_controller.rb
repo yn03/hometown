@@ -1,6 +1,9 @@
 class User::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
+    @post = @user.posts
+    @posts = Post.where(user_id: current_user.id)
+    @favorites = Favorite.where(user_id: current_user.id)
   end
 
   def edit
@@ -10,7 +13,7 @@ class User::UsersController < ApplicationController
   def update
     user = User.find(params[:id])
     user.update(user_params)
-    redirect_to show
+    redirect_to user_path(current_user)
   end
 
   def unsubscribe
