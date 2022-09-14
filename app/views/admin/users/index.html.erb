@@ -1,0 +1,28 @@
+<div class="container my-4">
+  <h3 class="text-center">会員一覧</h3>
+  <table class="table table-borderless col-md-8 mx-auto">
+    <thead>
+      <tr>
+        <th>ユーザー名</th>
+        <th>会員ステータス</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= user.name %></td>
+          <td>
+            <% if user.is_deleted == false %>
+              <p class="text-success">有効</p>
+            <% else %>
+              <p class="text-secondary">退会</p>
+            <% end %>
+          </td>
+          <td></td>
+          <td><%= link_to "詳細", admin_user_path(user), class: "btn btn-primary" %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

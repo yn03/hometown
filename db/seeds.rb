@@ -58,3 +58,8 @@ place = [
 place.each do |p|
   Place.create(name: p)
 end
+
+Admin.create!(
+   email: 'admin@com',
+   password: '123456'
+)

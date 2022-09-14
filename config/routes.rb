@@ -16,11 +16,16 @@ scope module: :user do
   resources :posts, only: [:index, :show, :edit, :new, :create, :update, :destroy] do
     collection do
       get :ranking
+      get :search
     end
     resources :comments, only: [:create, :destroy]
     resource :favorite, only: [:create, :destroy]
   end
 end
+
+get "users/:id/unsubscribe" => "user/users#unsubscribe", as: "unsubscribe"
+patch "users/:id/withdraw" => "user/users#withdraw", as: "withdraw"
+
 
 #ゲストログイン
 devise_scope :user do
@@ -32,5 +37,11 @@ end
 devise_for :admin, skip: [:registrations, :passwords], controllers: {
   sessions: "admin/sessions"
 }
+
+namespace :admin do
+  root 'homes#top'
+  resources :posts, only: [:index, :show]
+  resources :users, only: [:index, :show, :edit, :update]
+end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

@@ -1,0 +1,23 @@
+<div class="container my-4">
+  <h3 class="text-center"> <%= @user.name %>さんの会員情報編集</h3>
+    <%= form_with model: @user, url: admin_user_path(@user), local: true do |f| %>
+
+    <div class="row mt-2">
+      <div class="col-2">氏名</div>
+      <div class="col-3"><%= f.text_field :name %></div>
+     </div>
+     <div class="row mt-2">
+      <div class="col-2">メールアドレス</div>
+      <div class="col-3"><%= f.text_field :email %></div>
+    </div>
+					<td>会員ステータス</td>
+					<td><%= f.radio_button :is_deleted, false %><%= f.label :is_deleted, "有効", class: "text-active" %></td>
+					<td><%= f.radio_button :is_deleted, true %><%= f.label :is_deleted, "退会済み", class: "text-invalid" %></td>
+				</tr>
+				<tr>
+					<td colspan="3"><%= f.submit "更新", class: "btn btn-success" %></td>
+				</tr>
+			</tbody>
+		</table>
+	<% end %>
+</div>

@@ -68,6 +68,10 @@ class User::PostsController < ApplicationController
     @posts=@tag.posts.page(params[:page]).per(10)
   end
 
+ def search
+    @posts = Post.search(params[:keyword])
+  end
+
  private
   def post_params
     params.require(:post).permit(:title, :text, :place_id, :genre_id)

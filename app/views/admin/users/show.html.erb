@@ -1,0 +1,37 @@
+<div class="container my-4">
+  <h3 class="text-center"><%= @user.name %>さんのページ</h3>
+  <table class="table table-borderless col-md-5 mx-auto">
+    <thead>
+      <th></th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>ユーザー名</td>
+        <td><%= @user.name %></td>
+      </tr>
+      <tr>
+        <td>メールアドレス</td>
+        <td><%= @user.email %></td>
+      </tr>
+      <tr>
+        <td>投稿件数</td>
+        <td><%= @user.posts.count %> 件</td>
+      </tr>
+      <tr>
+        <td>会員ステータス</td>
+        <td>
+          <% if @user.is_deleted == false %>
+            <p class="text-success">有効</p>
+          <% else %>
+            <p class="text-secondary">退会</p>
+          <% end %>
+        </td>
+      </tr>
+      <tr>
+        <td><%= link_to "編集", edit_admin_user_path(@user), class: "btn btn-success" %></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
