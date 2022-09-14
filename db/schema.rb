@@ -91,7 +91,7 @@ ActiveRecord::Schema.define(version: 2022_09_11_074820) do
 
   create_table "posts", force: :cascade do |t|
     t.integer "user_id", null: false
-    t.integer "genre_id", null: false
+    t.integer "genre_id"
     t.integer "place_id", null: false
     t.string "title"
     t.text "text", null: false

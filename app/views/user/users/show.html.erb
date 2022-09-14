@@ -8,7 +8,6 @@
          <% else %>
            <%= image_tag 'no_image', size: "100x100", id: "profile_img"  %>
          <% end %>
-  <%#=image_tag @user.profile_image, size: '100x100'%>
     <div class="row mt-3">
       <div class="col-2"><h4><strong>登録情報</strong></h4>
       </div>
@@ -38,9 +37,10 @@
     <%#= link_to post_path(post.id) do %>
       <%#= image_tag post.get_image %>
     <%#" end %>
-    <p>投稿画像：<%#= image_tag post.user.get_profile_image(100,100) %></p>
+    <p>投稿画像：<%= image_tag post.image, size:"100×100" %></p>
     <p>タイトル：<%= post.title %></p>
     <p>投稿文：<%= post.text %></p>
     <p><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></p>
+    <p><%= post.favorites.count %> いいね数</p>
   <% end %>
   </div>

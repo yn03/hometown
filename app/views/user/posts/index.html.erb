@@ -25,6 +25,7 @@
             <td>
               <%= link_to user_path(post.user.id) do %>
                 <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+                <p><%= post.user.name %></p>
               <% end %>
             </td>
             <td>

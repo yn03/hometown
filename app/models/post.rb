@@ -1,10 +1,10 @@
 class Post < ApplicationRecord
   belongs_to :user
-  belongs_to :genre
+  belongs_to :genre,optional: true
   belongs_to :place
   has_many :favorites, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many_attached :images
+  has_one_attached :image
   has_many :post_tags,dependent: :destroy
   has_many :tags,through: :post_tags
 

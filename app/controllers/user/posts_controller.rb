@@ -60,6 +60,8 @@ class User::PostsController < ApplicationController
   end
 
   def ranking
+
+   
   end
 
  def search_tag
@@ -74,6 +76,6 @@ class User::PostsController < ApplicationController
 
  private
   def post_params
-    params.require(:post).permit(:title, :text, :place_id, :genre_id)
+    params.require(:post).permit(:title, :text, :place_id, :genre_id, :image)
   end
 end
