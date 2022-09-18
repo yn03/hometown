@@ -33,11 +33,13 @@ class Post < ApplicationRecord
 end
 
 def self.search(search)
-    if search != ""
-      Post.where(['text LIKE(?) OR title LIKE(?)',"%#{search}%","%#{search}%"])
-    else
-      Post.all
-    end
+  if Place.where('name LIKE ?', "#{search}%").present?
+    Post.joins(:place).where('places.name LIKE ?', "#{search}%")
+  elsif search != ""
+    Post.where(['text LIKE(?) OR title LIKE(?) OR place_id LIKE(?)',"%#{search}%","%#{search}%","%#{search}%"])
+  else
+    Post.all
   end
+end
 
 end

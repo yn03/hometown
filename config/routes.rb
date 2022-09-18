@@ -13,6 +13,8 @@ scope module: :user do
   get "search_tag"=>"posts#search_tag"
   resources :users, only: [:show, :edit, :update]
   resources :favorites, only: [:index]
+  resources :messages, only: [:create,:destroy]
+  resources :rooms, only: [:create,:show]
   resources :posts, only: [:index, :show, :edit, :new, :create, :update, :destroy] do
     collection do
       get :ranking

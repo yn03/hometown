@@ -23,19 +23,20 @@
         <tr>
           <td>
             <%= link_to user_path(@post.user.id) do %>
+            <% if @post.user.profile_image.attached? %>
               <%= image_tag @post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+            <% else %>
+              <%= image_tag 'no_image', size: "40x40", id: "profile_img"  %>
+            <% end %>
               <p><%= @post.user.name %></p>
             <% end %>
           </td>
           <td>
-             <% if @post.image.attached? %>
-              <%# @post.image.each do |image| %>
-              <%= image_tag @post.image, size: "300x300" %>
-                <div class="image_size"><%#= image_tag(image, width: 100) %></div>
-              <%#end%>
-          <% else %>
-            <%= image_tag 'no_image', size: "100x100" %>
-          <% end %>
+            <% if @post.image.attached? %>
+              <%= image_tag @post.image, size: "200x200" %>
+            <% else %>
+              <%= image_tag 'no_image', size: "100x100" %>
+            <% end %>
           </td>
           <td>
             <%= link_to post_path(@post.id) do %>
@@ -43,47 +44,43 @@
             <% end %>
           </td>
           <td>
-          <%= @post.place.name %>
+            <%= @post.place.name %>
           </td>
           <td>
             <%= @post.text %>
-             <p>コメント件数：<%= @post.comments.count %></p>
+            <p>コメント件数：<%= @post.comments.count %></p>
           </td>
-
-<td>
-          <% if @post.favorited_by?(current_user) %>
-    <p>
-      <%= link_to post_favorite_path(@post), method: :delete do %>
-        ♥<%= @post.favorites.count %> いいね
-      <% end %>
-    </p>
-    <% else %>
-    <p>
-      <%= link_to post_favorite_path(@post), method: :post do %>
-        ♡<%= @post.favorites.count %> いいね
-      <% end %>
-    </p>
-  <% end %>
-</td>
           <td>
-
-  <% @post.comments.each do |comment| %>
-    <p><%#= image_tag comment.user.profile_image(100,100) %></p>
-    <%= comment.user.name %>
-    <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
-    <% if comment.user_id == current_user.id %>
-      <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
-    <%end%>
-  <% end %>
-</td>
-
-
-<td>
-  <%= form_with model: [@post, @comment] do |f| %>
-    <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</td>
+            <% if @post.favorited_by?(current_user) %>
+              <p>
+                <%= link_to post_favorite_path(@post), method: :delete do %>
+                  ♥<%= @post.favorites.count %> いいね
+                <% end %>
+              </p>
+            <% else %>
+              <p>
+                <%= link_to post_favorite_path(@post), method: :post do %>
+                  ♡<%= @post.favorites.count %> いいね
+                <% end %>
+              </p>
+            <% end %>
+          </td>
+          <td>
+            <% @post.comments.each do |comment| %>
+              <p><%#= image_tag comment.user.profile_image(100,100) %></p>
+              <%= comment.user.name %>
+              <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
+              <% if comment.user_id == current_user.id %>
+                <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
+              <%end%>
+            <% end %>
+          </td>
+          <td>
+            <%= form_with model: [@post, @comment] do |f| %>
+              <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
+              <%= f.submit "送信する" %>
+            <% end %>
+          </td>
 
           <% if @user == current_user %>
             <td><%= link_to "Edit",edit_post_path(@post.id), class: 'btn btn-sm btn-success' %></td>

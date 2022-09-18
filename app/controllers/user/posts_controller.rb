@@ -1,4 +1,6 @@
 class User::PostsController < ApplicationController
+  before_action :authenticate_user!, except: [:show, :index]
+
   def new
     @post = Post.new
   end
@@ -9,6 +11,7 @@ class User::PostsController < ApplicationController
     @user = current_user
     @posting = Post.page(params[:page]).per(10)
     @tag_list = Tag.all
+    @favorite_ranks = Post.find(Favorite.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
   end
 
   def show
@@ -60,8 +63,7 @@ class User::PostsController < ApplicationController
   end
 
   def ranking
-
-   
+    @favorite_ranks = Post.find(Favorite.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
   end
 
  def search_tag
