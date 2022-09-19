@@ -14,9 +14,9 @@
         <% if user_signed_in? %>
           <li><%= link_to "マイページ", user_path(current_user.id), class: "header-button btn text-light" %></li>
           <li><%= link_to "みんなの投稿", posts_path, class: "header-button btn text-light" %></li>
-          <li><%= link_to "ランキング" ,ranking_posts_path, class: "header-button btn text-light" %></li>
+          <li><%#= link_to "投稿する", new_post_path, class: "header-button btn text-light" %></li>
+          <li><%#= link_to "ランキング" ,ranking_posts_path, class: "header-button btn text-light" %></li>
           <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "header-button btn text-light" %></li>
-          <li><%= link_to "投稿する", new_post_path, class: "header-button btn text-light" %></li>
 
         <!-- 管理者がログインしている時 -->
         <% elsif admin_signed_in? %>

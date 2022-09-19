@@ -1,81 +1,115 @@
 <div class="container">
-  <div class="row my-5">
-    <div class="col-sm-3">
-
-    <!--タグリスト-->
-<% @tag_list.each do |list|%>
-<%=link_to list.name,search_tag_path(tag_id: list.id) %>
-<%="(#{list.posts.count})" %><% end %>
-
-      <h3>投稿一覧</h3>
-    </div>
-    <table class="table table-hover table-inverse">
-      <thead>
-        <tr>
-          <th>投稿者</th>
-          <th>タイトル</th>
-          <th>投稿文</th>
-          <th>コメント</th>
-          <th>いいね</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @posts.each do |post| %>
+  <div class="row my-4">
+    <div class="col-md-7">
+      <h3 class="text-info text-opacity-25">投稿一覧</h3>
+      <p><全<%= @posts.count %>件の投稿></p>
+      </div>
+      <div class="col-md-3 my-3">
+      <%= link_to "投稿する", new_post_path, class: "header-button btn btn-outline-success" %>
+      </div>
+      <div class="row my-2">
+    <div class="col-md-9">
+      <table class="table table-hover table-inverse">
+        <thead>
           <tr>
-            <td>
-              <%= link_to user_path(post.user.id) do %>
-                <% if post.user.profile_image.attached? %>
-                  <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
-                <% else %>
-                  <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
-                <% end %>
-                <p><%= post.user.name %></p>
-              <% end %>
-            </td>
-            <td>
-              <%= link_to post_path(post.id) do %>
-                <%= post.title %>
-              <% end %>
-            </td>
-            <td><%= post.text %></td>
-            <td><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></td>
-            <td>
-              <% if post.favorited_by?(current_user) %>
-                <p>
-                  <%= link_to post_favorite_path(post), method: :delete do %>
-                    ♥<%= post.favorites.count %> いいね
-                  <% end %>
-                </p>
-              <% else %>
-                <p>
-                  <%= link_to post_favorite_path(post), method: :post do %>
-                    ♡<%= post.favorites.count %> いいね
-                  <% end %>
-                </p>
-              <% end %>
-            </td>
+            <th>投稿者</th>
+            <th>タイトル</th>
+            <th>投稿文</th>
+            <th>コメント</th>
+            <th>いいね</th>
+            <th>投稿日時</th>
           </tr>
+        </thead>
+        <tbody>
+          <% @posts.each do |post| %>
+            <tr>
+              <td>
+                <%= link_to user_path(post.user.id) do %>
+                  <% if post.user.profile_image.attached? %>
+                    <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+                  <% else %>
+                    <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
+                  <% end %>
+                  <p><%= post.user.name %></p>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to post_path(post.id) do %>
+                  <%= post.title.truncate(10) %>
+                <% end %>
+              </td>
+              <td><%= post.text.truncate(13) %></td>
+
+              <td><%= link_to "#{post.comments.count} 件", post_path(post.id) %></td>
+              <td>
+                <% if post.favorited_by?(current_user) %>
+                  <p>
+                    <%= link_to post_favorite_path(post), method: :delete do %>
+                      ♥<%= post.favorites.count %>
+                    <% end %>
+                  </p>
+                <% else %>
+                  <p>
+                    <%= link_to post_favorite_path(post), method: :post do %>
+                      ♡<%= post.favorites.count %>
+                    <% end %>
+                  </p>
+                <% end %>
+              </td>
+              <td><%= post.created_at.strftime('%Y/%m/%d  %H:%M') %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-3">
+      <!--タグリスト-->
+      <table class="table table-bordered mt-3" style="width: 12rem;">
+        <thead>
+          <tr>
+            <td class="table-active border-dark">タグ</td>
+          </tr>
+        </thead>
+        <tbody>
+          <% @tag_list.each do |list|%>
+            <tr>
+              <td class="border-dark">
+                <%=link_to list.name,search_tag_path(tag_id: list.id) %>
+                <%="(#{list.posts.count})" %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+      <div class="my-5">
+        <h3>人気の投稿</h3>
+        <%= form_with url: posts_path, method: :get, local: true do |f| %>
+          <%= f.select :place_id, options_from_collection_for_select( Place.all, :id, :name), include_blank: "都道府県を選択" %>
+          <%= f.submit "検索"%>
+
+        <!--配列の1つ目から順に1位、２位と表示される-->
+        <%  @favorite_ranks.each.with_index(1) do |post, i| %>
+          <p>👑第<%= i %>位</p>
+          :
+          <!--表示したいカラム-->
+          <td>
+          <%= link_to user_path(post.user.id) do %>
+                  <% if post.user.profile_image.attached? %>
+                    <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+                  <% else %>
+                    <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
+                  <% end %>
+                  <p><%= post.user.name %></p>
+                <% end %>
+            :タイトル
+            <%= link_to post_path(post.id) do %>
+  　           <%= post.title %>
+            <% end %>
+          </td>
+          <%end%>
         <% end %>
-      </tbody>
-    </table>
+      </div>
+    </div>
   </div>
-</div>
-
- <h2>人気の投稿</h2>
-<%= form_with url: ranking_posts_path, method: :get, local: true do |f| %>
-  <%= f.select :place_id, options_from_collection_for_select( Place.all, :id, :name), include_blank: "都道府県を選択" %>
-  <%= f.submit "検索"%>
-<%end%>
-<!--配列の1つ目から順に1位、２位と表示される-->
-<%  @favorite_ranks.each.with_index(1) do |post, i| %>
-  <p>第<%= i %>位</p>
-:
-<!--表示したいカラム-->
-:<td>
-  <%= link_to post_path(post.id) do %>
-  　<%= post.title %>
-  <% end %>
-</td>
-
-<% end %>
 </div>

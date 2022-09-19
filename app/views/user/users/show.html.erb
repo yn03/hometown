@@ -1,9 +1,7 @@
 <div class="container px-5 px sm-0">
-  <div class="row mt-5">
-    <h2>マイページ</h2>
-  </div>
-  <div class="row mt-3">
-    <div class = "col-4">
+  <div class="row my-5">
+   <div class="col-md-4">
+    <h2 class="text-info text-opacity-25">マイページ</h2>
       <!-- ユーザーの詳細 -->
       <h4>登録情報</h4>
       <% if @user.profile_image.attached? %>
@@ -12,19 +10,19 @@
         <%= image_tag 'no_image', size: "100x100", id: "profile_img"  %>
       <% end %>
 
-      <div>
+      <div class="mt-3">
         <label>名前</label>
       </div>
       <div >
         <%= @user.name %>
       </div>
       <div>
-      <label >自己紹介文</label>
+      <label class="mt-2">自己紹介文</label>
       </div>
       <div>
         <%= @user.introduction %>
       </div>
-      <div>
+      <div class="mt-3">
         <% if current_user == @user %>
           <%= link_to "編集する", edit_user_path(@user), class: 'btn btn-outline-success' %>
           <%= link_to "いいね一覧︎",favorites_path(@favorites),class: 'btn btn-outline-warning' %>
@@ -47,21 +45,39 @@
       <% end %>
   　</div>
 
-    <div class = "col-8">
+    <div class = "col-md-8">
       <!-- ユーザーの投稿一覧 -->
-      <h2>投稿一覧</h2>
-      <% @post.each do |post| %>
-        <p>投稿画像</p>
+      <h2 class="text-info text-opacity-25">投稿一覧</h2>
+      <p><全<%= @posts.count %>件の投稿></p>
+       <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+        <th>投稿画像</th>
+        <th>タイトル</th>
+        <th>投稿文</th>
+        <th>コメント</th>
+        <th>いいね</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @post.each do |post| %>
+        <tr>
+        <td>
         <% if post.image.attached? %>
-          <%= image_tag post.image, size: "200x200" %>
+          <%= image_tag post.image, size: "100x100" %>
         <% else %>
           <%= image_tag 'no_image', size: "100x100" %>
         <% end %>
-        <p>タイトル：<%= post.title %></p>
-        <p>投稿文：<%= post.text %></p>
-        <p><%= post.comments.count %>コメント数</p>
-        <p><%= post.favorites.count %> いいね数</p>
+        </td>
+        <td><%= link_to post_path(post.id) do %><%= post.title.truncate(10) %><% end %></td>
+        <td><%= post.text.truncate(10) %></td>
+        <td><%= post.comments.count %>件</td>
+        <td><%= post.favorites.count %>いいね</td>
+        </tr>
       <% end %>
+      </tbody>
+
+      </table>
     </div>
   </div>
 </div>

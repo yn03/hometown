@@ -11,7 +11,13 @@ class User::PostsController < ApplicationController
     @user = current_user
     @posting = Post.page(params[:page]).per(10)
     @tag_list = Tag.all
-    @favorite_ranks = Post.find(Favorite.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
+
+    if params[:place_id]
+      # Post.find([1, 4, 2])
+      @favorite_ranks = Post.where(id: Favorite.group(:post_id).order('count(post_id) desc').pluck(:post_id), place_id: params[:place_id]).limit(3)
+    else
+      @favorite_ranks = Post.find(Favorite.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
+    end
   end
 
   def show
@@ -73,7 +79,15 @@ class User::PostsController < ApplicationController
   end
 
  def search
-    @posts = Post.search(params[:keyword])
+    keyword = params[:keyword].sub(/　/,' ')  #全角であれば半角にする
+    keywordAry = keyword.split(' ')# "ケーキ 青森県" → ["ケーキ", "青森県"]のように、『半角スペースを基準に分割する』
+    # @posts = []
+    @posts = Post.all
+    keywordAry.each do |keyword|
+      # @posts.concat(Post.search(keyword))
+      @posts = @posts.search(keyword)
+    end
+    # @posts = @posts.uniq
   end
 
  private

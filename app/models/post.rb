@@ -34,9 +34,9 @@ end
 
 def self.search(search)
   if Place.where('name LIKE ?', "#{search}%").present?
-    Post.joins(:place).where('places.name LIKE ?', "#{search}%")
+    joins(:place).where('places.name LIKE ?', "#{search}%")
   elsif search != ""
-    Post.where(['text LIKE(?) OR title LIKE(?) OR place_id LIKE(?)',"%#{search}%","%#{search}%","%#{search}%"])
+    where(['text LIKE(?) OR title LIKE(?) OR place_id LIKE(?)',"%#{search}%","%#{search}%","%#{search}%"])
   else
     Post.all
   end

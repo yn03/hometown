@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row my-5">
-    <div class="col-sm-3">
+    <div class="col-md-7">
 
       <!--タグ-->
       <% @post_tags.each do |tag| %>
@@ -8,15 +8,18 @@
       <%="(#{tag.posts.count})" %>
       <% end %>
 
-      <h3>投稿詳細画面</h3>
+      <h3 class="text-info text-opacity-25">投稿詳細画面</h3>
     </div>
-    <table class="table">
+    <table class="table table-hover table-inverse">
       <thead>
         <tr>
           <th>名前</th>
           <th>画像</th>
           <th>タイトル</th>
           <th>投稿文</th>
+          <th>場所</th>
+          <th>いいね</th>
+          <th>コメント</th>
         </tr>
       </thead>
       <tbody>
@@ -44,11 +47,11 @@
             <% end %>
           </td>
           <td>
-            <%= @post.place.name %>
-          </td>
-          <td>
             <%= @post.text %>
             <p>コメント件数：<%= @post.comments.count %></p>
+          </td>
+          <td>
+            <%= @post.place.name %>
           </td>
           <td>
             <% if @post.favorited_by?(current_user) %>
@@ -75,6 +78,7 @@
               <%end%>
             <% end %>
           </td>
+          <div class = "row">
           <td>
             <%= form_with model: [@post, @comment] do |f| %>
               <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
@@ -89,5 +93,6 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 </div>

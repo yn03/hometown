@@ -15,9 +15,8 @@ scope module: :user do
   resources :favorites, only: [:index]
   resources :messages, only: [:create,:destroy]
   resources :rooms, only: [:create,:show]
-  resources :posts, only: [:index, :show, :edit, :new, :create, :update, :destroy] do
+  resources :posts, only: [:index, :show, :edit, :new, :create, :update, :destroy, :ranking] do
     collection do
-      get :ranking
       get :search
     end
     resources :comments, only: [:create, :destroy]
