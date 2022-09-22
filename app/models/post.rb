@@ -32,6 +32,10 @@ class Post < ApplicationRecord
    end
 end
 
+def get_image
+  (image.attached?) ? image : 'no_image.jpg'
+end
+
 def self.search(search)
   if Place.where('name LIKE ?', "#{search}%").present?
     joins(:place).where('places.name LIKE ?', "#{search}%")

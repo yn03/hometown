@@ -19,11 +19,7 @@
   <div class="row">
     <div class="col-1 border-bottom">
       <%= link_to user_path(@post.user.id) do %>
-        <% if @post.user.profile_image.attached? %>
-          <%= image_tag @post.user.profile_image, class: "rounded-circle", size: "60x60"  %>
-        <% else %>
-          <%= image_tag 'no_image', size: "50x50", id: "profile_img"  %>
-        <% end %>
+          <%= image_tag @post.user.get_profile_image, class: "rounded-circle", size: "60x60"  %>
         <p><%= @post.user.name %></p>
       <% end %>
     </div>
@@ -43,11 +39,7 @@
   </div>
 
   <div class="row mx-5 mt-2">
-      <% if @post.image.attached? %>
-        <%= image_tag @post.image, size: "400x400" %>
-      <% else %>
-        <%= image_tag 'no_image', size: "400x400" %>
-      <% end %>
+    <%= image_tag @post.get_image, size: "400x400" %>
   </div>
 
   <div class="row mx-5 mt-2">
@@ -87,11 +79,7 @@
           <% @post.comments.each do |comment| %>
             <tr>
               <td>
-                <% if comment.user.profile_image.attached? %>
-                  <%= image_tag comment.user.profile_image, class: "rounded-circle", size: "30x30" %>
-                <% else %>
-                  <%= image_tag 'no_image', size: "50x50", id: "profile_img"  %>
-                <% end %>
+                <%= image_tag comment.user.get_profile_image, class: "rounded-circle", size: "30x30" %>
                 <p><%= comment.user.name %></p>
               </td>
               <td><%= comment.comment %> </td>

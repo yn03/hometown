@@ -25,11 +25,7 @@
             <tr>
               <td>
                 <%= link_to user_path(post.user.id) do %>
-                  <% if post.user.profile_image.attached? %>
-                    <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
-                  <% else %>
-                    <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
-                  <% end %>
+                  <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
                   <p><%= post.user.name %></p>
                 <% end %>
               </td>
@@ -97,11 +93,7 @@
           <!--表示したいカラム-->
           <td>
             <%= link_to user_path(post.user.id) do %>
-              <% if post.user.profile_image.attached? %>
-                <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
-              <% else %>
-                <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
-              <% end %>
+              <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
                 <p><%= post.user.name %></p>
               <% end %>
               :タイトル
