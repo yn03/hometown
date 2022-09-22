@@ -5,7 +5,7 @@ class User::SessionsController < Devise::SessionsController
   def guest_sign_in
     user = User.guest
     sign_in user   # ユーザーをログインさせる
-    redirect_to about_path, notice: 'ゲストユーザーとしてログインしました。'
+    redirect_to user_path(user), notice: 'ゲストユーザーとしてログインしました。'
   end
   # before_action :configure_sign_in_params, only: [:create]
 

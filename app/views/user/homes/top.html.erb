@@ -1,6 +1,47 @@
-
- <p>hometownへようこうそ<br>
+ <hr>
+ <% if user_signed_in? %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 offset-1">
+        <div class="top-image text-center mt-5 ml-4">
+          <%= image_tag 'logo.png', size: "600x400", style: "position: relative;" %>
+            <p style="position:absolute; top:90px; left:300px; color:#FFF; background-color:rgba(0,0,0,0.3);">
+               Hometownへようこうそ<br>
 				このサイトは地元のおすすめを共有できるコミュニティサイトです。<br>
-    いいねやコメント機能があるので、することができます。<br>
-				ゲストログインでご利用もいただけます。<br>
-		  </p>
+    いいねやコメント機能があるので、他ユーザーのオススメを参考にすることができます。<br>
+				ゲストログインでご利用もいただけます。
+            </p>
+        </div>
+      </div>
+    </div>
+
+<!-- ログインしていない時 -->
+<% else %>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 offset-1">
+        <div class="top-image text-center mt-5 ml-4">
+          <%= image_tag 'logo.png', size: "600x400", style: "position: relative;" %>
+            <p style="position:absolute; top:90px; left:300px; color:#FFF; background-color:rgba(0,0,0,0.3);">
+               Hometownへようこうそ<br>
+				このサイトはその地域でのオススメを共有できるコミュニティサイトです。<br>
+				地元でのオススメから旅先で見つけたオススメまで、いいなと思った場所や食べ物などジャンルを問わず共有できます。<br>
+    いいねやコメント機能があるので、他ユーザーのオススメを参考にすることもできます。<br>
+				ゲストログインでご利用もいただけます。
+            </p>
+        </div>
+      </div>
+      <div class="btn-wrapper col-4 mx-auto">
+        <div class="row">
+          <%= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, class: "btn btn-outline-secondary btn-sm btn-block mb-3 sign_in", method: :post %>
+        </div>
+        <div class="row">
+          <%= link_to "ログイン", new_user_session_path, class: "btn btn-outline-success btn-sm btn-block mb-3" %>
+        </div>
+        <div class="row">
+          <%= link_to "新規登録", new_user_registration_path, class: "btn btn-outline-primary btn-sm btn-block mb-3" %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

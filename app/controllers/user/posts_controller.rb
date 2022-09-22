@@ -7,9 +7,9 @@ class User::PostsController < ApplicationController
 
   def index
     @post = Post.new
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc).page(params[:page]).per(10)
     @user = current_user
-    @posting = Post.page(params[:page]).per(10)
+    @posting = Post.page(params[:page]).per(5)
     @tag_list = Tag.all
 
     if params[:place_id]
@@ -22,7 +22,7 @@ class User::PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
-    @user = current_user
+    @user = @post.user
     @comment = Comment.new
     @comments = @post.comments
     @post_tags = @post.tags
@@ -68,12 +68,8 @@ class User::PostsController < ApplicationController
     redirect_to posts_path
   end
 
-  def ranking
-    @favorite_ranks = Post.find(Favorite.group(:post_id).order('count(post_id) desc').limit(3).pluck(:post_id))
-  end
-
  def search_tag
-    @tag_list=Tag.all
+    @tag_list=Tag.all.order(created_at: :desc)
     @tag=Tag.find(params[:tag_id])
     @posts=@tag.posts.page(params[:page]).per(10)
   end

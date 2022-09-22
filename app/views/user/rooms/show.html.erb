@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
-    <div class="col-lg-4">
-    <div class= "col-lg-8.frame-notification">
+    <div class="col-lg-4 my-4">
 
-<h2>ダイレクトメッセージ</h2>
+
+<h2 class="text-info text-opacity-25">ダイレクトメッセージ</h2>
 <h4>参加者</h4>
 <% @entries.each do |e| %>
   <h5><strong><a href="/users/<%= e.user.id %>"><%= e.user.name %>さん</a></strong></h5>

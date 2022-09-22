@@ -1,98 +1,97 @@
 <div class="container">
-  <div class="row my-5">
+  <div class="row my-3">
     <div class="col-md-7">
+    </div>
+  </div>
 
+  <div class="row">
+    <div class="col-12">
       <!--タグ-->
       <% @post_tags.each do |tag| %>
-      <%= link_to tag.name,search_tag_path(tag_id: tag.id)%><%="(#{tag.posts.count})" %>
+      <%= link_to tag.name,search_tag_path(tag_id: tag.id)%>
       <%="(#{tag.posts.count})" %>
       <% end %>
 
-      <h3 class="text-info text-opacity-25">投稿詳細画面</h3>
+      <h2 class="text-info text-opacity-25">投稿詳細画面</h2>
     </div>
-    <table class="table table-hover table-inverse">
-      <thead>
-        <tr>
-          <th>名前</th>
-          <th>画像</th>
-          <th>タイトル</th>
-          <th>投稿文</th>
-          <th>場所</th>
-          <th>いいね</th>
-          <th>コメント</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <%= link_to user_path(@post.user.id) do %>
-            <% if @post.user.profile_image.attached? %>
-              <%= image_tag @post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
-            <% else %>
-              <%= image_tag 'no_image', size: "40x40", id: "profile_img"  %>
-            <% end %>
-              <p><%= @post.user.name %></p>
-            <% end %>
-          </td>
-          <td>
-            <% if @post.image.attached? %>
-              <%= image_tag @post.image, size: "200x200" %>
-            <% else %>
-              <%= image_tag 'no_image', size: "100x100" %>
-            <% end %>
-          </td>
-          <td>
-            <%= link_to post_path(@post.id) do %>
-              <%= @post.title %>
-            <% end %>
-          </td>
-          <td>
-            <%= @post.text %>
-            <p>コメント件数：<%= @post.comments.count %></p>
-          </td>
-          <td>
-            <%= @post.place.name %>
-          </td>
-          <td>
-            <% if @post.favorited_by?(current_user) %>
-              <p>
-                <%= link_to post_favorite_path(@post), method: :delete do %>
-                  ♥<%= @post.favorites.count %> いいね
-                <% end %>
-              </p>
-            <% else %>
-              <p>
-                <%= link_to post_favorite_path(@post), method: :post do %>
-                  ♡<%= @post.favorites.count %> いいね
-                <% end %>
-              </p>
-            <% end %>
-          </td>
-          <td>
-            <% @post.comments.each do |comment| %>
-              <p><%#= image_tag comment.user.profile_image(100,100) %></p>
-              <%= comment.user.name %>
-              <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
-              <% if comment.user_id == current_user.id %>
-                <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
-              <%end%>
-            <% end %>
-          </td>
-          <div class = "row">
-          <td>
-            <%= form_with model: [@post, @comment] do |f| %>
-              <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
-              <%= f.submit "送信する" %>
-            <% end %>
-          </td>
+  </div>
 
-          <% if @user == current_user %>
-            <td><%= link_to "Edit",edit_post_path(@post.id), class: 'btn btn-sm btn-success' %></td>
-            <td><%= link_to "Destroy",post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-sm btn-danger' %></td>
-          <% end %>
-        </tr>
-      </tbody>
-    </table>
+  <div class="row">
+    <div class="col-1 border-bottom">
+      <%= link_to user_path(@post.user.id) do %>
+        <% if @post.user.profile_image.attached? %>
+          <%= image_tag @post.user.profile_image, class: "rounded-circle", size: "60x60"  %>
+        <% else %>
+          <%= image_tag 'no_image', size: "50x50", id: "profile_img"  %>
+        <% end %>
+        <p><%= @post.user.name %></p>
+      <% end %>
     </div>
+    <div class="col-8 border-bottom mt-4">
+      <h2>『<%= @post.title %>』</h2>
+      <% if @user == current_user %>
+    </div>
+    <div class="col-3 border-bottom mt-4">
+        <%= link_to "Edit",edit_post_path(@post.id), class: 'btn btn-outline-success' %>
+        <%= link_to "Destroy",post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-outline-danger' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row mx-5 mt-2">
+      <h5><%= @post.text %></h5>
+  </div>
+
+  <div class="row mx-5 mt-2">
+      <% if @post.image.attached? %>
+        <%= image_tag @post.image, size: "400x400" %>
+      <% else %>
+        <%= image_tag 'no_image', size: "400x400" %>
+      <% end %>
+  </div>
+
+  <div class="row mx-5 mt-2">
+    <%= @post.place.name %>
+  </div>
+
+  <div class="row mx-5 mt-2">
+    <% if @post.favorited_by?(current_user) %>
+      <p>
+        <%= link_to post_favorite_path(@post), method: :delete do %>
+          ♥<%= @post.favorites.count %> いいね
+        <% end %>
+      </p>
+    <% else %>
+      <p>
+        <%= link_to post_favorite_path(@post), method: :post do %>
+          ♡<%= @post.favorites.count %> いいね
+        <% end %>
+      </p>
+    <% end %>
+  </div>
+
+  <div class="row mx-5">
+    <p>コメント件数：<%= @post.comments.count %></p>
+  </div>
+
+
+
+    <% @post.comments.each do |comment| %>
+    <div class="row mx-5 mt-2">
+      <p><%#= image_tag comment.user.profile_image(100,100) %></p>
+      <%= comment.user.name %>
+      <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
+      <% if comment.user_id == current_user.id %>
+        <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
+      <%end%>
+      </div>
+    <% end %>
+
+
+  <div class="row mx-5 mt-2">
+    <%= form_with model: [@post, @comment] do |f| %>
+      <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
+      <%= f.submit "送信する" %>
+    <% end %>
   </div>
 </div>

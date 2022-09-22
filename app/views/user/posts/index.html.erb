@@ -1,23 +1,23 @@
 <div class="container">
   <div class="row my-4">
     <div class="col-md-7">
-      <h3 class="text-info text-opacity-25">投稿一覧</h3>
+      <h2 class="text-info text-opacity-25">投稿一覧</h2>
       <p><全<%= @posts.count %>件の投稿></p>
       </div>
       <div class="col-md-3 my-3">
-      <%= link_to "投稿する", new_post_path, class: "header-button btn btn-outline-success" %>
+      <%= link_to  new_post_path, class: "header-button btn btn-outline-success" do %>投稿する<i class="fas fa-pencil-alt"></i><% end %>
       </div>
       <div class="row my-2">
     <div class="col-md-9">
       <table class="table table-hover table-inverse">
         <thead>
           <tr>
-            <th>投稿者</th>
-            <th>タイトル</th>
-            <th>投稿文</th>
-            <th>コメント</th>
-            <th>いいね</th>
-            <th>投稿日時</th>
+            <th class="border-dark table-active">投稿者</th>
+            <th class="border-dark table-active">タイトル</th>
+            <th class="border-dark table-active">投稿文</th>
+            <th class="border-dark table-active">コメント</th>
+            <th class="border-dark table-active">いいね</th>
+            <th class="border-dark table-active">投稿日時</th>
           </tr>
         </thead>
         <tbody>
@@ -61,19 +61,21 @@
           <% end %>
         </tbody>
       </table>
+      <div><%= paginate @posts %></div>
     </div>
+
     <div class="col-md-3">
       <!--タグリスト-->
       <table class="table table-bordered mt-3" style="width: 12rem;">
         <thead>
           <tr>
-            <td class="table-active border-dark">タグ</td>
+            <td class="table-active border-dark"><i class="fas fa-tag"></i>タグ検索</td>
           </tr>
         </thead>
         <tbody>
           <% @tag_list.each do |list|%>
             <tr>
-              <td class="border-dark">
+              <td class="border-secondary">
                 <%=link_to list.name,search_tag_path(tag_id: list.id) %>
                 <%="(#{list.posts.count})" %>
               </td>

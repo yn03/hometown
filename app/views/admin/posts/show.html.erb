@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-sm-3">
-      <h3>投稿詳細画面</h3>
+      <h3 class="text-info text-opacity-25">投稿詳細画面</h3>
     </div>
     <table class="table">
       <thead>
@@ -9,34 +9,44 @@
           <th>名前</th>
           <th>タイトル</th>
           <th>投稿文</th>
-          <th>コメント件数</th>
-          <th>いいね数</th>
+          <th>コメント</th>
+          <th>いいね</th>
           <th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
-            <%= image_tag @user.profile_image, class: "rounded-circle", size: "40x40" %>
-            <p><%= @user.name %></p>
+            <%= link_to admin_user_path(@user) do %>
+              <% if @user.profile_image.attached? %>
+                <%= image_tag @user.profile_image, class: "rounded-circle", size: "40x40" %>
+              <% else %>
+                <%= image_tag 'no_image',class: "rounded-circle", size: "40x40", id: "profile_img"  %>
+              <% end %>
+              <p><%= @user.name %></p>
+            <% end %>
           </td>
           <td><%= @post.title %></td>
           <td><%= @post.text %></td>
-          <td><%= @post.comments.count %></td>
-          <td><%= @post.favorites.count %></td>
+          <td><%= @post.comments.count %>件</td>
+          <td>
+            <% if @post.favorited_by?(@post.user) %>
+              ♥<%= @post.favorites.count %>
+            <% else %>
+              ♡<%= @post.favorites.count %>
+            <% end %>
+          </td>
 
-        <td>
-          <% @post.comments.each do |comment| %>
+          <td>
+            <% @post.comments.each do |comment| %>
             <p><%#= image_tag comment.user.profile_image(100,100) %></p>
-            <%= comment.user.name %>
-            <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
-            <%= link_to 'コメントを削除', admin_post_comment_path(comment.id), method: :delete, class: "btn btn-sm btn-success" %>
-          <% end %>
-        </td>
-
-
-          <td><%= link_to "編集",edit_admin_user_path(@user), class: 'btn btn-sm btn-success' %></td>
-          <td><%= link_to "投稿を削除",admin_post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-sm btn-danger' %></td>
+              <%= comment.user.name %>
+              <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
+              <%= link_to 'コメントを削除', admin_post_comment_path(comment.id), method: :delete, class: "btn btn-sm btn-success" %>
+            <% end %>
+          </td>
+          <td><%= link_to "編集",edit_admin_user_path(@user), class: 'btn btn-sm btn-outline-success' %></td>
+          <td><%= link_to "投稿を削除",admin_post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-sm btn-outline-danger' %></td>
         </tr>
       </tbody>
     </table>

@@ -5,6 +5,7 @@ class Admin::PostsController < ApplicationController
     @user = current_user
     @posting = Post.page(params[:page]).per(10)
     @tag_list = Tag.all
+    @users = User.all
   end
 
   def show
@@ -19,9 +20,8 @@ class Admin::PostsController < ApplicationController
     redirect_to admin_root_path
   end
 
-  end
-
   private
   def post_params
     params.require(:post).permit(:title, :text, :place_id, :genre_id)
   end
+end

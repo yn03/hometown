@@ -8,7 +8,6 @@ devise_for :users, skip: [:passwords], controllers: {
 }
 scope module: :user do
   root 'homes#top'
-  get 'home/about' => 'homes#about', as: 'about'
   # タグの検索
   get "search_tag"=>"posts#search_tag"
   resources :users, only: [:show, :edit, :update]

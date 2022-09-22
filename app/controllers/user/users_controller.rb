@@ -2,7 +2,7 @@ class User::UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
-    @post = @user.posts
+    @post = @user.posts.order(created_at: :desc).page(params[:page]).per(5)
     @posts = Post.where(user_id: current_user.id)
     @favorites = Favorite.where(user_id: current_user.id)
     @currentUserEntry = Entry.where(user_id: current_user.id) # current_userをEntriesテーブルから探す

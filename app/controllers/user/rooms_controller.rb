@@ -13,7 +13,7 @@ class User::RoomsController < ApplicationController
 
     # entriesテーブルにcurrent_user.idと紐付いたチャットルームがあるかどうか確認
     if Entry.where(user_id: current_user.id,room_id: @room.id).present?
-      @messages = @room.messages
+      @messages = @room.messages.order('created_at DESC')
       @message = Message.new
       # チャットルームのユーザ情報を表示させるため代入
       @entries = @room.entries
@@ -22,7 +22,7 @@ class User::RoomsController < ApplicationController
     end
   end
 
-  
+
 
   private
     def entry_params
