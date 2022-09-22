@@ -34,11 +34,11 @@
           </td>
 
           <td>
-            <% @post.comments.each do |comment| %>
-            <p><%#= image_tag comment.user.profile_image(100,100) %></p>
-              <%= comment.user.name %>
+            <% @comment.each do |comment| %>
+            <p><%= image_tag comment.user.get_profile_image, class: "rounded-circle", size: "40x40" %>
+              <%= comment.user.name %></p>
               <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
-              <%= link_to 'コメントを削除', admin_post_comment_path(comment.id), method: :delete, class: "btn btn-sm btn-success" %>
+              <%= link_to 'コメントを削除', admin_post_comment_path(@post,comment), method: :delete, class: "btn btn-sm btn-success" %>
             <% end %>
           </td>
           <td><%= link_to "編集",edit_admin_user_path(@user), class: 'btn btn-sm btn-outline-success' %></td>
