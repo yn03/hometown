@@ -60,38 +60,38 @@
         </tr>
         </thead>
         <tbody>
-        <% @post.each do |post| %>
-        <tr>
-          <td>
-            <% if post.image.attached? %>
-              <%= image_tag post.image, size: "100x100" %>
-            <% else %>
-          <%= image_tag 'no_image', size: "100x100" %>
-        <% end %>
-        </td>
-        <td><%= link_to post_path(post.id) do %><%= post.title.truncate(10) %><% end %></td>
-        <td><%= post.text.truncate(10) %></td>
-        <td><%= link_to "#{post.comments.count}件", post_path(post.id) %></td>
-        <td>
-          <% if post.favorited_by?(current_user) %>
-            <p>
-              <%= link_to post_favorite_path(post), method: :delete do %>
-                ♥<%= post.favorites.count %>
-              <% end %>
-            </p>
-          <% else %>
-            <p>
-              <%= link_to post_favorite_path(post), method: :post do %>
-                ♡<%= post.favorites.count %>
-              <% end %>
-            </p>
+          <% @posts.each do |post| %>
+            <tr>
+              <td>
+                <% if post.image.attached? %>
+                  <%= image_tag post.image, size: "100x100" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "100x100" %>
+                <% end %>
+              </td>
+              <td><%= link_to post_path(post.id) do %><%= post.title.truncate(10) %><% end %></td>
+              <td><%= post.text.truncate(10) %></td>
+              <td><%= link_to "#{post.comments.count}件", post_path(post.id) %></td>
+              <td>
+                <% if post.favorited_by?(current_user) %>
+                  <p>
+                    <%= link_to post_favorite_path(post), method: :delete do %>
+                      ♥<%= post.favorites.count %>
+                    <% end %>
+                  </p>
+                <% else %>
+                  <p>
+                    <%= link_to post_favorite_path(post), method: :post do %>
+                      ♡<%= post.favorites.count %>
+                    <% end %>
+                  </p>
+                <% end %>
+              </td>
+            </tr>
           <% end %>
-        </td>
-        </tr>
-      <% end %>
-      </tbody>
+        </tbody>
       </table>
-      <div><%= paginate @post %></div>
+      <div><%= paginate @posts %></div>
     </div>
   </div>
 </div>

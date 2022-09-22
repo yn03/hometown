@@ -51,7 +51,10 @@
   </div>
 
   <div class="row mx-5 mt-2">
-    <%= @post.place.name %>
+    場所：<%= @post.place.name %>
+  </div>
+  <div class="row mx-5 mt-2">
+    タグ：<%= @post.place.name %>
   </div>
 
   <div class="row mx-5 mt-2">
@@ -76,21 +79,40 @@
 
 
 
-    <% @post.comments.each do |comment| %>
-    <div class="row mx-5 mt-2">
-      <p><%#= image_tag comment.user.profile_image(100,100) %></p>
-      <%= comment.user.name %>
-      <%= comment.created_at.strftime('%Y/%m/%d') %> <%= comment.comment %>
-      <% if comment.user_id == current_user.id %>
-        <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
-      <%end%>
-      </div>
-    <% end %>
+
+      <div class="row mx-5 mt-2">
+
+        <table class="table table-sm">
+          <tbody>
+          <% @post.comments.each do |comment| %>
+            <tr>
+              <td>
+                <% if comment.user.profile_image.attached? %>
+                  <%= image_tag comment.user.profile_image, class: "rounded-circle", size: "30x30" %>
+                <% else %>
+                  <%= image_tag 'no_image', size: "50x50", id: "profile_img"  %>
+                <% end %>
+                <p><%= comment.user.name %></p>
+              </td>
+              <td><%= comment.comment %> </td>
+              <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+              <td>
+                <% if comment.user_id == current_user.id %>
+                  <%= link_to 'コメントを削除', post_comment_path(comment.post.id), data: {confirm: '本当に削除しますか？'}, method: :delete %>
+                <%end%>
+              </td>
+            </tr>
+            <% end %>
+          </tbody>
+
+      </table>
+    </div>
+
 
 
   <div class="row mx-5 mt-2">
     <%= form_with model: [@post, @comment] do |f| %>
-      <%= f.text_area :comment, rows: '2', placeholder: "コメントを入力する" %>
+      <%= f.text_area :comment, rows: '3', placeholder: "コメントを入力する" %>
       <%= f.submit "送信する" %>
     <% end %>
   </div>
