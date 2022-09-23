@@ -19,9 +19,6 @@
     <small>by <strong><a href="/users/<%= m.user_id %>"><%= m.user.name %>さん</a></strong></small>
     <%= m.created_at.strftime("%Y-%m-%d %H:%M")%>
     <hr>
-    <% if m.user == current_user %>
-    <%= link_to '削除', m, method: :delete, data: { confirm: '本当に削除してもよろしいですか？' }, class: 'btn-sm btn-danger'%>
-<% end %>
   <% end %>
 <% else %>
   <h3 class="text-center">メッセージはまだありません</h3>

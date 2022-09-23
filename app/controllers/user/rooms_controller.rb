@@ -1,4 +1,6 @@
 class User::RoomsController < ApplicationController
+   before_action :authenticate_user!
+
   def create
     @room = Room.create
     # current_userのEntry
@@ -10,10 +12,9 @@ class User::RoomsController < ApplicationController
 
   def show
     @room = Room.find(params[:id])
-
     # entriesテーブルにcurrent_user.idと紐付いたチャットルームがあるかどうか確認
     if Entry.where(user_id: current_user.id,room_id: @room.id).present?
-      @messages = @room.messages.order('created_at DESC')
+      @messages = @room.messages.order(created_at: :asc)
       @message = Message.new
       # チャットルームのユーザ情報を表示させるため代入
       @entries = @room.entries
