@@ -14,7 +14,7 @@
       <% @users.each do |user| %>
         <tr>
           <td>
-            <%= image_tag user.profile_image, class: "rounded-circle", size: "40x40"  %>
+            <%= image_tag user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
             <p><%= user.name %></p>
           </td>
           <td>
