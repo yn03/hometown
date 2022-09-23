@@ -1,9 +1,10 @@
 class Admin::PostsController < ApplicationController
   def index
     @post = Post.new
-    @posts = Post.all
+    @posts = Post.all.order(created_at: :desc).page(params[:page]).per(10)
+    @post_all = Post.all
     @user = current_user
-    @posting = Post.page(params[:page]).per(10)
+
     @tag_list = Tag.all
     @users = User.all
   end
@@ -12,6 +13,7 @@ class Admin::PostsController < ApplicationController
     @post = Post.find(params[:id])
     @user = @post.user
     @comment = @post.comments
+    @post_tags = @post.tags
   end
 
   def  destroy

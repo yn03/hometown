@@ -1,51 +1,54 @@
 <div class="container">
-  <h5>タグが 『 <%= @tag.name %> 』 の投稿一覧</h5>
+  <h2 class="text-info text-opacity-25">タグが 『 <%= @tag.name %> 』 の投稿一覧</h2>
 
-<!--タグリスト-->
-<% @tag_list.each do |list|%>
-<%=link_to list.name,search_tag_path(tag_id: list.id) %>
-<%="(#{list.posts.count})" %><% end %>
-<% @posts.each do |post| %>
-<!--投稿はカードで囲む-->
-<div class="card">
-  <div class="card-body">
-    <!--タイトル表示される文字数は２５文字までにしてます-->
-    <h6 class="card-title">
-      <%=link_to post_path(post.id) do %><%= post.title.truncate(25) %>
-      <% end %>
-    </h6>
-    <!--お気に入り、コメント数、投稿者-->
+  <!--タグリスト-->
+  <div>[その他のタグ]</div>
+  <% @tag_list.each do |list|%>
+    <%=link_to list.name,search_tag_path(tag_id: list.id) %>
+    <%="(#{list.posts.count})" %>
+  <% end %>
+  <% @posts.each do |post| %>
+  <!--投稿はカードで囲む-->
+    <div class="card">
+      <div class="card-body">
+        <!--タイトル表示される文字数は２５文字までにしてます-->
+        <h6 class="card-title">
+          <%=link_to post_path(post.id) do %>
+            <%= post.title.truncate(25) %>
+          <% end %>
+        </h6>
+        <!--お気に入り、コメント数、投稿者-->
+        <div class="row">
+          <div class="col-1">
+            <%= link_to user_path(post.user.id) do %>
+              <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+              <p><%= post.user.name %></p>
+            <% end %>
+          </div>
+          <div class="col-11">
+            <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
+            <% if post.favorited_by?(current_user) %>
+              <p>
+                <%= link_to post_favorite_path(post), method: :delete do %>
+                  ♥<%= post.favorites.count %> いいね
+                <% end %>
+              </p>
+            <% else %>
+              <p>
+                <%= link_to post_favorite_path(post), method: :post do %>
+                  ♡<%= post.favorites.count %> いいね
+                <% end %>
+              </p>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
 
-      <%= link_to user_path(post.user.id) do %>
-        <% if post.user.profile_image.attached? %>
-          <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
-        <% else %>
-          <%= image_tag 'no_image', size: "40x40", id: "profile_img"  %>
-        <% end %>
-      <% end %>
-
-              <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-               <% if post.favorited_by?(current_user) %>
-                <p>
-                  <%= link_to post_favorite_path(post), method: :delete do %>
-                    ♥<%= post.favorites.count %> いいね
-                  <% end %>
-                </p>
-              <% else %>
-                <p>
-                  <%= link_to post_favorite_path(post), method: :post do %>
-                    ♡<%= post.favorites.count %> いいね
-                  <% end %>
-                </p>
-              <% end %>
-
+  <div class="pagination pagination-sm justify-content-center">
+    <%= paginate @posts %>
   </div>
-</div>
-<% end %>
-
-<div class="pagination pagination-sm justify-content-center">
-       <%= paginate @posts %></div>
-
 </div>
 
 

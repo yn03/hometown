@@ -3,6 +3,7 @@ class User::UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts.order(created_at: :desc).page(params[:page]).per(5)
+    @post_all = @user.posts
     @favorites = Favorite.where(user_id: current_user.id)
     @currentUserEntry = Entry.where(user_id: current_user.id) # current_userをEntriesテーブルから探す
     @userEntry = Entry.where(user_id: @user.id) # DMを送る対象のユーザーをEntriesテーブルから探す

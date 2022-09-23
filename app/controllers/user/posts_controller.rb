@@ -9,9 +9,8 @@ class User::PostsController < ApplicationController
     @post = Post.new
     @posts = Post.all.order(created_at: :desc).page(params[:page]).per(10)
     @user = current_user
-    @posting = Post.page(params[:page]).per(5)
     @tag_list = Tag.all
-
+    @post_all = Post.all
     if params[:place_id]
       # Post.find([1, 4, 2])
       @favorite_ranks = Post.where(id: Favorite.group(:post_id).order('count(post_id) desc').pluck(:post_id), place_id: params[:place_id]).limit(3)
@@ -39,15 +38,14 @@ class User::PostsController < ApplicationController
   end
 
   def create
-    post = Post.new(post_params)
-    post.user_id = current_user.id
+    @post = Post.new(post_params)
+    @post.user_id = current_user.id
     tag_list=params[:post][:name].split(',')
-    pp post
-    if post.save!
-      post.save_tag(tag_list)
-      redirect_to posts_path(post.id),notice:'投稿しました'
+    if @post.save
+      @post.save_tag(tag_list)
+      redirect_to posts_path(@post.id), notice:'投稿しました'
     else
-      render:new
+      render:new, notice: '投稿に失敗しました'
     end
   end
 
@@ -88,6 +86,6 @@ class User::PostsController < ApplicationController
 
  private
   def post_params
-    params.require(:post).permit(:title, :text, :place_id, :genre_id, :image,:comment)
+    params.require(:post).permit(:title, :text, :place_id, :genre_id, :image, :comment)
   end
 end

@@ -2,6 +2,7 @@
   <div class="row my-5">
     <div class="col-sm-3">
       <h3 class="text-info text-opacity-25">投稿一覧</h3>
+      <p>< <%= @posts.count %>件 / 全<%= @post_all.count %>件の投稿 ></p>
     </div>
     <table class="table table-inverse">
       <thead>
@@ -38,5 +39,6 @@
         <% end %>
       </tbody>
     </table>
+    <div><%= paginate @posts %></div>
   </div>
 </div>
