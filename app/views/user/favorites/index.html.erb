@@ -18,7 +18,7 @@
         <% @favorite_posts.each do |post|%>
         <tr>
             <td>
-              <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+              <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
               <p><%= post.user.name %></p>
             </td>
             <td>
