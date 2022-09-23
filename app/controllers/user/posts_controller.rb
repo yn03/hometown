@@ -9,7 +9,7 @@ class User::PostsController < ApplicationController
     @post = Post.new
     @posts = Post.all.order(created_at: :desc).page(params[:page]).per(10)
     @user = current_user
-    @tag_list = Tag.all.limit(10),pluck(:tag_id)
+    @tag_list = Tag.all.limit(10)
     @post_all = Post.all
     if params[:place_id]
       # Post.find([1, 4, 2])
