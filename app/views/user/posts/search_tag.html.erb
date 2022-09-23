@@ -21,25 +21,15 @@
         <div class="row">
           <div class="col-1">
             <%= link_to user_path(post.user.id) do %>
-              <%= image_tag post.user.profile_image, class: "rounded-circle", size: "40x40"  %>
+              <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
               <p><%= post.user.name %></p>
             <% end %>
           </div>
           <div class="col-11">
             <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-            <% if post.favorited_by?(current_user) %>
-              <p>
-                <%= link_to post_favorite_path(post), method: :delete do %>
-                  ♥<%= post.favorites.count %> いいね
-                <% end %>
-              </p>
-            <% else %>
-              <p>
-                <%= link_to post_favorite_path(post), method: :post do %>
-                  ♡<%= post.favorites.count %> いいね
-                <% end %>
-              </p>
-            <% end %>
+            <div id='favorite_buttons_<%= post.id %>'>
+              <%= render 'user/favorites/favorites', post: post%>
+            </div>
           </div>
         </div>
       </div>

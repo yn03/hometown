@@ -19,7 +19,7 @@ scope module: :user do
       get :search
     end
     resources :comments, only: [:create, :destroy]
-    resource :favorite, only: [:create, :destroy]
+    resources :favorites, only: [:create, :destroy]
   end
 end
 
