@@ -20,7 +20,7 @@
       <h2>『<%= @post.title %>』</h2>
     </div>
     <div class="col-3 border-bottom mt-4">
-      <%= link_to "編集",edit_admin_user_path(@user), class: 'btn btn-sm btn-outline-success' %>
+      <%= link_to "プロフィール編集",edit_admin_user_path(@user), class: 'btn btn-sm btn-outline-success' %>
       <%= link_to "投稿を削除",admin_post_path(@post.id),method: :delete, "data-confirm" => "本当に削除しますか？",class: 'btn btn-sm btn-outline-danger' %>
     </div>
   </div>
