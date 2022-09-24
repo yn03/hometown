@@ -19,7 +19,24 @@ class Admin::PostsController < ApplicationController
   def  destroy
     @post = Post.find(params[:id])
     @post.destroy
-    redirect_to admin_root_path
+    redirect_to admin_posts_path
+  end
+
+  def update
+    @post = Post.find(params[:id])
+
+  end
+
+  def search
+    keyword = params[:keyword].sub(/　/,' ')  #全角であれば半角にする
+    keywordAry = keyword.split(' ')# "ケーキ 青森県" → ["ケーキ", "青森県"]のように、『半角スペースを基準に分割する』
+    # @posts = []
+    @posts = Post.all
+    keywordAry.each do |keyword|
+      # @posts.concat(Post.search(keyword))
+      @posts = @posts.search(keyword)
+    end
+    # @posts = @posts.uniq
   end
 
   private

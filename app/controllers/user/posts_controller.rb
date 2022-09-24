@@ -50,11 +50,11 @@ class User::PostsController < ApplicationController
   end
 
   def update
-    post = Post.find(params[:id])
+    @post = Post.find(params[:id])
     tag_list=params[:post][:name].split(',')
-    if post.update(post_params)
-      post.save_tag(tag_list)
-       redirect_to post_path(post.id), notice: '更新しました'
+    if @post.update(post_params)
+      @post.save_tag(tag_list)
+      redirect_to post_path(@post.id), notice: '更新しました'
     else
        render :edit
     end
