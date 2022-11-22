@@ -1,7 +1,8 @@
 <div class="container">
   <div class="row my-5">
     <div class="col-sm-3">
-    <h3 class="section-ttl text-center text-blue pt-4 pb-3">投稿フォーム</h3>
+      <h3 class="text-info text-opacity-25">投稿フォーム</h3>
+      <%= render 'layouts/errors', obj: @post %>
       <%= form_with model:@post,local:true do |f| %>
         <div class="form-group">
         <%#= f.label :画像 %>
@@ -24,7 +25,6 @@
         </div>
 
         <%= f.select :place_id, options_from_collection_for_select( Place.all, :id, :name),include_blank: "都道府県を選択" %>
-        <%#= f.select :genre_id, options_from_collection_for_select( Genre.all, :id, :name),include_blank: "ジャンルを選択" %>
 
         <div class="text-center">
           <%= f.submit "投稿", class: 'btn btn-success' %>
