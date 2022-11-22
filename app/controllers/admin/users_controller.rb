@@ -18,7 +18,6 @@ class Admin::UsersController < ApplicationController
     redirect_to admin_user_path
   end
 
-
   private
 
   def user_params

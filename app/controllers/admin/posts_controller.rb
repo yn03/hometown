@@ -16,7 +16,7 @@ class Admin::PostsController < ApplicationController
     @post_tags = @post.tags
   end
 
-  def  destroy
+  def destroy
     @post = Post.find(params[:id])
     @post.destroy
     redirect_to admin_posts_path
