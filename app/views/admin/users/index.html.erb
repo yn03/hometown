@@ -1,1 +1,38 @@
-<h2>ユーザ一覧</h2>
+<div class="container">
+  <div class="row my-5">
+    <div class="col-sm-3">
+      <h3 class="text-info text-opacity-25">ユーザ一覧</h3>
+    </div>
+
+    <table class="table table-hover table-inverse">
+      <thead>
+        <tr>
+          <th class="border-dark table-active">ID</th>
+          <th class="border-dark table-active">投稿者</th>
+          <th class="border-dark table-active">ステータス</th>
+          <th class="border-dark table-active"></th>
+          <th class="border-dark table-active"></th>
+          <th class="border-dark table-active"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.id %></td>
+            <td><%= user.name %></td>
+            <td>
+              <% if user.is_deleted == false %>
+                <p class="text-success">有効</p>
+              <% else %>
+                <p class="text-secondary">退会</p>
+              <% end %>
+            </td>
+            <td>
+              <%= link_to '詳細',admin_user_path(user.id), class:"btn btn-outline-success" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

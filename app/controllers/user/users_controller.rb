@@ -54,4 +54,10 @@ class User::UsersController < ApplicationController
   def user_params
     params.require(:user).permit(:name, :introduction, :email, :profile_image, :image)
   end
+
+  def currect_user
+    @user = User.find(params[:id])
+    @user = @post.user
+    redirect_to(root_path) unless @user == current_user
+  end
 end
