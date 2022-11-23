@@ -51,6 +51,9 @@
       <% end %>
     </p>
   </div>
+  <div class="row mx-5 mt-2">
+    <p>投稿日時 :<%= @post.created_at.strftime('%Y/%m/%d  %H:%M') %></p>
+  </div>
 
   <div class="row mx-5 mt-2">
     <div id='favorite_buttons_<%= @post.id %>'>
@@ -72,7 +75,7 @@
               <p><%= comment.user.name %></p>
             </td>
             <td><%= comment.comment %> </td>
-            <td><%= comment.created_at.strftime('%Y/%m/%d') %></td>
+            <td><%= comment.created_at.strftime('%Y/%m/%d %H:%M') %></td>
             <td>
               <% if comment.user_id == current_user.id %>
                 <%= link_to 'コメントを削除', post_comment_path(@post,comment), data: {confirm: '本当に削除しますか？'}, method: :delete %>

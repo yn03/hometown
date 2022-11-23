@@ -7,52 +7,44 @@
     <%=link_to list.name,search_tag_path(tag_id: list.id) %>
     <%="(#{list.posts.count})" %>
   <% end %>
-  <% @posts.each do |post| %>
-  <!--投稿はカードで囲む-->
-    <div class="card">
-      <div class="card-body">
-        <!--タイトル表示される文字数は２５文字までにしてます-->
-        <h6 class="card-title">
-          <%=link_to post_path(post.id) do %>
-            <%= post.title.truncate(25) %>
+  <div class="row my-2">
+    <div class="col-md-9">
+      <table class="table table-hover table-inverse">
+        <thead>
+          <tr>
+            <th class="border-dark table-active">投稿者</th>
+            <th class="border-dark table-active">タイトル</th>
+            <th class="border-dark table-active">投稿文</th>
+            <th class="border-dark table-active">コメント</th>
+            <th class="border-dark table-active">いいね</th>
+            <th class="border-dark table-active">投稿日時</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @posts.each do |post| %>
+            <tr>
+              <td>
+                <%= link_to user_path(post.user.id) do %>
+                  <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
+                  <p><%= post.user.name %></p>
+                <% end %>
+              </td>
+              <td>
+                <%=link_to post_path(post.id) do %>
+                  <!--タイトル表示される文字数は２５文字までにしてます-->
+                  <%= post.title.truncate(25) %>
+                <% end %>
+              </td>
+              <td><%= post.text %></td>
+              <td><%= link_to "#{post.comments.count} コメント", post_path(post.id) %></td>
+              <td id='favorite_buttons_<%= post.id %>'>
+                <%= render 'user/favorites/favorites', post: post%>
+              </td>
+              <td><%= post.created_at.strftime('%Y/%m/%d  %H:%M') %></td>
+            </tr>
           <% end %>
-        </h6>
-        <!--お気に入り、コメント数、投稿者-->
-        <div class="row">
-          <div class="col-1">
-            <%= link_to user_path(post.user.id) do %>
-              <%= image_tag post.user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
-              <p><%= post.user.name %></p>
-            <% end %>
-          </div>
-          <div class="col-11">
-            <%= link_to "#{post.comments.count} コメント", post_path(post.id) %>
-            <div id='favorite_buttons_<%= post.id %>'>
-              <%= render 'user/favorites/favorites', post: post%>
-            </div>
-          </div>
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
-  <% end %>
-
-  <div class="pagination pagination-sm justify-content-center">
-    <%= paginate @posts %>
   </div>
 </div>
-
-
-<style>
-.card{
-  padding:0;
-  margin:0;
-  border:none;
-}
-
-
-
-h6 {
-  /*線の種類（実線） 太さ 色*/
-  border-bottom: solid 3px black;
-}
-</style>
