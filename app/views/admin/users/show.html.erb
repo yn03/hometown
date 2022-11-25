@@ -9,7 +9,10 @@
     <tbody>
       <tr>
         <td>ユーザー名</td>
-        <td><%= @user.name %></td>
+        <td>
+          <%= image_tag @user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
+          <p><%= @user.name %></p>
+        </td>
       </tr>
       <tr>
         <td>メールアドレス</td>

@@ -11,15 +11,16 @@
           <th class="border-dark table-active">投稿者</th>
           <th class="border-dark table-active">ステータス</th>
           <th class="border-dark table-active"></th>
-          <th class="border-dark table-active"></th>
-          <th class="border-dark table-active"></th>
         </tr>
       </thead>
       <tbody>
         <% @users.each do |user| %>
           <tr>
             <td><%= user.id %></td>
-            <td><%= user.name %></td>
+            <td>
+              <%= image_tag user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
+              <p><%= user.name %></p>
+            </td>
             <td>
               <% if user.is_deleted == false %>
                 <p class="text-success">有効</p>
