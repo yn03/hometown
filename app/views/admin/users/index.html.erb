@@ -7,7 +7,7 @@
     <table class="table table-hover table-inverse">
       <thead>
         <tr>
-          <th class="border-dark table-active">ID</th>
+          <th class="border-dark table-active"></th>
           <th class="border-dark table-active">投稿者</th>
           <th class="border-dark table-active">ステータス</th>
           <th class="border-dark table-active"></th>
@@ -16,7 +16,7 @@
       <tbody>
         <% @users.each do |user| %>
           <tr>
-            <td><%= user.id %></td>
+            <td></td>
             <td>
               <%= image_tag user.get_profile_image, class: "rounded-circle", size: "40x40"  %>
               <p><%= user.name %></p>

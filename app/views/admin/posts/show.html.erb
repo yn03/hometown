@@ -43,6 +43,9 @@
       <% end %>
     </p>
   </div>
+  <div class="row mx-5 mt-2">
+    <p>投稿日時 :<%= @post.created_at.strftime('%Y/%m/%d  %H:%M') %></p>
+  </div>
 
   <div class="row mx-5 mt-2">
     <p>いいね数：
