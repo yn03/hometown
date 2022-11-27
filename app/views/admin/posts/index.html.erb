@@ -26,13 +26,7 @@
             <td><%= post.title.truncate(10) %></td>
             <td><%= post.text.truncate(15) %></td>
             <td><%= post.comments.count %>件</td>
-            <td>
-              <% if post.favorited_by?(post.user) %>
-                ♥<%= post.favorites.count %>
-              <% else %>
-                ♡<%= post.favorites.count %>
-              <% end %>
-            </td>
+            <td>♡<%= post.favorites.count %></td>
             <td><%= post.created_at.strftime('%Y/%m/%d  %H:%M') %></td>
             <td><%= link_to '詳細', admin_post_path(post.id), class:"btn btn-outline-success" %></td>
           </tr>
